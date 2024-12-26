@@ -2,14 +2,14 @@ package models_test
 
 import (
 	"testing"
-	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/polygon-io/client-go/rest/models"
 )
 
 func TestListDividendsParams(t *testing.T) {
 	ticker := "A"
-	date := models.Date(time.Date(2023, 3, 23, 0, 0, 0, 0, time.Local))
+	date := civil.Date{Year:2023, Month: 3, Day: 23}
 	cash := 1.25
 	frequency := models.Annually
 	dividendType := models.DividendCD

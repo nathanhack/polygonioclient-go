@@ -218,25 +218,6 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 	return json.Marshal(time.Time(*t).Format("2006-01-02T15:04:05.000Z"))
 }
 
-// Date represents a short date string of the following format: "2006-01-02".
-type Date time.Time
-
-func (d *Date) UnmarshalJSON(data []byte) error {
-	unquoteData, err := strconv.Unquote(string(data))
-	if err != nil {
-		return err
-	}
-	t, err := time.Parse("2006-01-02", unquoteData)
-	if err != nil {
-		return err
-	}
-	*d = Date(t)
-	return nil
-}
-
-func (d *Date) MarshalJSON() ([]byte, error) {
-	return json.Marshal(time.Time(*d).Format("2006-01-02"))
-}
 
 // Millis represents a Unix time in milliseconds since January 1, 1970 UTC.
 type Millis time.Time

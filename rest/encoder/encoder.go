@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/go-playground/form/v4"
 	"github.com/go-playground/validator/v10"
 	"github.com/polygon-io/client-go/rest/models"
@@ -90,8 +91,8 @@ func newEncoder(tag string) *form.Encoder {
 		return []string{fmt.Sprint(time.Time(x.(models.Time)).Format("2006-01-02T15:04:05.000Z"))}, nil
 	}, models.Time{})
 	e.RegisterCustomTypeFunc(func(x any) ([]string, error) {
-		return []string{fmt.Sprint(time.Time(x.(models.Date)).Format("2006-01-02"))}, nil
-	}, models.Date{})
+		return []string{fmt.Sprint(x.(civil.Date))}, nil
+	}, civil.Date{})
 	e.RegisterCustomTypeFunc(func(x any) ([]string, error) {
 		return []string{fmt.Sprint(time.Time(x.(models.Millis)).UnixMilli())}, nil
 	}, models.Millis{})

@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/jarcoal/httpmock"
 	polygon "github.com/polygon-io/client-go/rest"
 	"github.com/polygon-io/client-go/rest/models"
@@ -193,7 +194,7 @@ func TestGetGroupedDailyAggs(t *testing.T) {
 	res, err := c.GetGroupedDailyAggs(context.Background(), models.GetGroupedDailyAggsParams{
 		Locale:     models.US,
 		MarketType: models.Stocks,
-		Date:       models.Date(time.Date(2021, 7, 22, 0, 0, 0, 0, time.Local)),
+		Date:       civil.Date{Year: 2021, Month: 7, Day: 22},
 	}.WithAdjusted(true))
 	assert.Nil(t, err)
 
@@ -225,7 +226,7 @@ func TestGetDailyOpenCloseAgg(t *testing.T) {
 	registerResponder("https://api.polygon.io/v1/open-close/AAPL/2020-10-14?adjusted=true", expectedResponse)
 	res, err := c.GetDailyOpenCloseAgg(context.Background(), models.GetDailyOpenCloseAggParams{
 		Ticker: "AAPL",
-		Date:   models.Date(time.Date(2020, 10, 14, 0, 0, 0, 0, time.Local)),
+		Date:   civil.Date{Year: 2020, Month: 10, Day: 14},
 	}.WithAdjusted(true))
 	assert.Nil(t, err)
 

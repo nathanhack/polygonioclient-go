@@ -1,6 +1,10 @@
 package models
 
-import "strings"
+import (
+	"strings"
+
+	"cloud.google.com/go/civil"
+)
 
 // ListTickersParams is the set of parameters for the ListTickers method.
 type ListTickersParams struct {
@@ -33,7 +37,7 @@ type ListTickersParams struct {
 	CIK *int `query:"cik"`
 
 	// Specify a point in time to retrieve tickers available on that date. Defaults to the most recent available date.
-	Date *Date `query:"date"`
+	Date *civil.Date `query:"date"`
 
 	// Specify if the tickers returned should be actively traded on the queried date. Default is true.
 	Active *bool `query:"active"`
@@ -93,7 +97,7 @@ func (p ListTickersParams) WithCIK(q int) *ListTickersParams {
 	return &p
 }
 
-func (p ListTickersParams) WithDate(q Date) *ListTickersParams {
+func (p ListTickersParams) WithDate(q civil.Date) *ListTickersParams {
 	p.Date = &q
 	return &p
 }
@@ -146,10 +150,10 @@ type GetTickerDetailsParams struct {
 	// include information from the SEC filing.
 	//
 	// Defaults to the most recent available date.
-	Date *Date `query:"date"`
+	Date *civil.Date `query:"date"`
 }
 
-func (p GetTickerDetailsParams) WithDate(q Date) *GetTickerDetailsParams {
+func (p GetTickerDetailsParams) WithDate(q civil.Date) *GetTickerDetailsParams {
 	p.Date = &q
 	return &p
 }
@@ -299,7 +303,7 @@ type Ticker struct {
 	Description                 string         `json:"description,omitempty"`
 	HomepageURL                 string         `json:"homepage_url,omitempty"`
 	LastUpdatedUTC              Time           `json:"last_updated_utc,omitempty"`
-	ListDate                    Date           `json:"list_date,omitempty"`
+	ListDate                    civil.Date     `json:"list_date,omitempty"`
 	Locale                      string         `json:"locale,omitempty"`
 	Market                      string         `json:"market,omitempty"`
 	MarketCap                   float64        `json:"market_cap,omitempty"`
@@ -411,7 +415,7 @@ type TickerEventResult struct {
 
 // TickerEvent contains the data for the different type of ticker events that could occur.
 type TickerEvent struct {
-	Date         Date               `json:"date"`
+	Date         civil.Date         `json:"date"`
 	Type         string             `json:"type"`
 	TickerChange *TickerChangeEvent `json:"ticker_change,omitempty"`
 }

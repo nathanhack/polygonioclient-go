@@ -1,5 +1,7 @@
 package models
 
+import "cloud.google.com/go/civil"
+
 // ListStockFinancialsParams is the set of parameters for the ListStockFinancials method.
 type ListStockFinancialsParams struct {
 	// Query by company ticker.
@@ -27,18 +29,18 @@ type ListStockFinancialsParams struct {
 	//
 	// To get financials based on filings that happened in the year 2009 use the query params
 	// filing_date.gte=2009-01-01&filing_date.lt=2010-01-01.
-	FilingDateEQ  *Date `query:"filing_dividend_date"`
-	FilingDateLT  *Date `query:"filing_dividend_date.lt"`
-	FilingDateLTE *Date `query:"filing_dividend_date.lte"`
-	FilingDateGT  *Date `query:"filing_dividend_date.gt"`
-	FilingDateGTE *Date `query:"filing_dividend_date.gte"`
+	FilingDateEQ  *civil.Date `query:"filing_dividend_date"`
+	FilingDateLT  *civil.Date `query:"filing_dividend_date.lt"`
+	FilingDateLTE *civil.Date `query:"filing_dividend_date.lte"`
+	FilingDateGT  *civil.Date `query:"filing_dividend_date.gt"`
+	FilingDateGTE *civil.Date `query:"filing_dividend_date.gte"`
 
 	// The period of report for the filing with financials data in YYYY-MM-DD format.
-	PeriodOfReportDateEQ  *Date `query:"period_of_report_date"`
-	PeriodOfReportDateLT  *Date `query:"period_of_report_date.lt"`
-	PeriodOfReportDateLTE *Date `query:"period_of_report_date.lte"`
-	PeriodOfReportDateGT  *Date `query:"period_of_report_date.gt"`
-	PeriodOfReportDateGTE *Date `query:"period_of_report_date.gte"`
+	PeriodOfReportDateEQ  *civil.Date `query:"period_of_report_date"`
+	PeriodOfReportDateLT  *civil.Date `query:"period_of_report_date.lt"`
+	PeriodOfReportDateLTE *civil.Date `query:"period_of_report_date.lte"`
+	PeriodOfReportDateGT  *civil.Date `query:"period_of_report_date.gt"`
+	PeriodOfReportDateGTE *civil.Date `query:"period_of_report_date.gte"`
 
 	// Query by timeframe. Annual financials originate from 10-K filings, and quarterly financials originate from 10-Q
 	// filings. Note: Most companies do not file quarterly reports for Q4 and instead include those financials in their
@@ -84,7 +86,7 @@ func (p ListStockFinancialsParams) WithSIC(q string) *ListStockFinancialsParams 
 	return &p
 }
 
-func (p ListStockFinancialsParams) WithFilingDate(c Comparator, q Date) *ListStockFinancialsParams {
+func (p ListStockFinancialsParams) WithFilingDate(c Comparator, q civil.Date) *ListStockFinancialsParams {
 	switch c {
 	case EQ:
 		p.FilingDateEQ = &q
@@ -100,7 +102,7 @@ func (p ListStockFinancialsParams) WithFilingDate(c Comparator, q Date) *ListSto
 	return &p
 }
 
-func (p ListStockFinancialsParams) WithPeriodOfReportDate(c Comparator, q Date) *ListStockFinancialsParams {
+func (p ListStockFinancialsParams) WithPeriodOfReportDate(c Comparator, q civil.Date) *ListStockFinancialsParams {
 	switch c {
 	case EQ:
 		p.PeriodOfReportDateEQ = &q

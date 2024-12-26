@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/jarcoal/httpmock"
 	polygon "github.com/polygon-io/client-go/rest"
 	"github.com/polygon-io/client-go/rest/models"
@@ -48,7 +49,7 @@ func TestListTickers(t *testing.T) {
 	iter := c.ListTickers(context.Background(), models.ListTickersParams{}.
 		WithType("CS").WithMarket(models.AssetStocks).
 		WithExchange("XNAS").WithCUSIP(10).WithCIK(5).
-		WithDate(models.Date(time.Date(2021, 7, 22, 0, 0, 0, 0, time.UTC))).WithActive(true).
+		WithDate(civil.Date{Year: 2021, Month: 7, Day: 22}).WithActive(true).
 		WithSort(models.TickerSymbol).WithOrder(models.Asc).WithLimit(2))
 
 	// iter creation
@@ -112,10 +113,10 @@ func TestGetTickerDetails(t *testing.T) {
 	}
 }`
 
-	registerResponder("https://api.polygon.io/v3/reference/tickers/A?date=2021-07-22", expectedResponse)
+	registerResponder("https://api.polygon.io/v3/reference/tickers/A?date=2011-07-22", expectedResponse)
 	res, err := c.GetTickerDetails(context.Background(), models.GetTickerDetailsParams{
 		Ticker: "A",
-	}.WithDate(models.Date(time.Date(2021, 7, 22, 0, 0, 0, 0, time.UTC))))
+	}.WithDate(civil.Date{Year: 2011, Month: 7, Day: 22}))
 	assert.Nil(t, err)
 
 	var expect models.GetTickerDetailsResponse
@@ -415,7 +416,7 @@ func TestListSplits(t *testing.T) {
 
 	registerResponder("https://api.polygon.io/v3/reference/splits?execution_date=2021-07-22&limit=2&order=asc&reverse_split=false&sort=ticker&ticker=AAPL", expectedResponse)
 	iter := c.ListSplits(context.Background(), models.ListSplitsParams{}.
-		WithTicker(models.EQ, "AAPL").WithExecutionDate(models.EQ, models.Date(time.Date(2021, 7, 22, 0, 0, 0, 0, time.UTC))).WithReverseSplit(false).
+		WithTicker(models.EQ, "AAPL").WithExecutionDate(models.EQ, civil.Date{Year: 2021, Month: 7, Day: 22}).WithReverseSplit(false).
 		WithSort(models.TickerSymbol).WithOrder(models.Asc).WithLimit(2))
 
 	// iter creation
@@ -606,7 +607,7 @@ func TestGetOptionsContract(t *testing.T) {
 	registerResponder("https://api.polygon.io/v3/reference/options/contracts/O:EVRI240119C00002500", expectedResponse)
 	res, err := c.GetOptionsContract(context.Background(), models.GetOptionsContractParams{
 		Ticker: "O:EVRI240119C00002500",
-	}.WithAsOf(models.Date(time.Date(2022, 5, 16, 0, 0, 0, 0, time.Local))))
+	}.WithAsOf(civil.Date{Year: 2022, Month: 5, Day: 16}))
 	assert.Nil(t, err)
 
 	var expect models.GetOptionsContractResponse

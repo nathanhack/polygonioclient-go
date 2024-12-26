@@ -2,14 +2,14 @@ package models_test
 
 import (
 	"testing"
-	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/polygon-io/client-go/rest/models"
 )
 
 func TestListSplitsParams(t *testing.T) {
 	ticker := "A"
-	date := models.Date(time.Date(2023, 3, 23, 0, 0, 0, 0, time.Local))
+	date := civil.Date{Year:2023, Month: 3, Day: 23}
 	reverseSplit := true
 	sort := models.TickerSymbol
 	order := models.Asc

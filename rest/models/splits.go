@@ -1,5 +1,7 @@
 package models
 
+import "cloud.google.com/go/civil"
+
 // ListSplitsParams is the set of parameters for the ListSplits method.
 type ListSplitsParams struct {
 	// Return the stock splits that contain this ticker.
@@ -10,11 +12,11 @@ type ListSplitsParams struct {
 	TickerGTE *string `query:"ticker.gte"`
 
 	// Query by execution date with the format YYYY-MM-DD.
-	ExecutionDateEQ  *Date `query:"execution_date"`
-	ExecutionDateLT  *Date `query:"execution_date.lt"`
-	ExecutionDateLTE *Date `query:"execution_date.lte"`
-	ExecutionDateGT  *Date `query:"execution_date.gt"`
-	ExecutionDateGTE *Date `query:"execution_date.gte"`
+	ExecutionDateEQ  *civil.Date `query:"execution_date"`
+	ExecutionDateLT  *civil.Date `query:"execution_date.lt"`
+	ExecutionDateLTE *civil.Date `query:"execution_date.lte"`
+	ExecutionDateGT  *civil.Date `query:"execution_date.gt"`
+	ExecutionDateGTE *civil.Date `query:"execution_date.gte"`
 
 	// Query for reverse stock splits. A split ratio where split_from is greater than split_to represents a reverse
 	// split. By default this filter is not used.
@@ -46,7 +48,7 @@ func (p ListSplitsParams) WithTicker(c Comparator, q string) *ListSplitsParams {
 	return &p
 }
 
-func (p ListSplitsParams) WithExecutionDate(c Comparator, q Date) *ListSplitsParams {
+func (p ListSplitsParams) WithExecutionDate(c Comparator, q civil.Date) *ListSplitsParams {
 	switch c {
 	case EQ:
 		p.ExecutionDateEQ = &q
@@ -90,8 +92,8 @@ type ListSplitsResponse struct {
 
 // Split contains detailed information on a specified stock split.
 type Split struct {
-	ExecutionDate Date    `json:"execution_date,omitempty"`
-	SplitFrom     float64 `json:"split_from,omitempty"`
-	SplitTo       float64 `json:"split_to,omitempty"`
-	Ticker        string  `json:"ticker,omitempty"`
+	ExecutionDate civil.Date `json:"execution_date,omitempty"`
+	SplitFrom     float64    `json:"split_from,omitempty"`
+	SplitTo       float64    `json:"split_to,omitempty"`
+	Ticker        string     `json:"ticker,omitempty"`
 }

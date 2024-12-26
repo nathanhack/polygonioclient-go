@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/polygon-io/client-go/rest/models"
 )
 
@@ -13,7 +14,7 @@ func TestListTickersParams(t *testing.T) {
 	assetMarket := models.AssetStocks
 	cik := 1650729
 	name := "Apple"
-	date := models.Date(time.Date(2023, 3, 23, 0, 0, 0, 0, time.Local))
+	date := civil.Date{Year: 2023, Month: 3, Day: 23}
 	active := true
 	sort := models.TickerSymbol
 	order := models.Asc
@@ -55,7 +56,7 @@ func TestListTickersParams(t *testing.T) {
 }
 
 func TestGetTickerDetailsParams(t *testing.T) {
-	date := models.Date(time.Date(2023, 3, 23, 0, 0, 0, 0, time.Local))
+	date := civil.Date{Year: 2023, Month: 3, Day: 23}
 
 	expect := models.GetTickerDetailsParams{
 		Date: &date,

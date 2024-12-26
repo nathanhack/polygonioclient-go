@@ -1,15 +1,17 @@
 package models
 
+import "cloud.google.com/go/civil"
+
 // GetOptionsContract is the set of parameters for the GetOptionsContract method.
 type GetOptionsContractParams struct {
 	// Return the contract that contains this options ticker.
 	Ticker string `validate:"required" path:"ticker"`
 
 	// Specify a point in time for the contract as of this date.
-	AsOf *Date `query:"as_of"`
+	AsOf *civil.Date `query:"as_of"`
 }
 
-func (p GetOptionsContractParams) WithAsOf(q Date) *GetOptionsContractParams {
+func (p GetOptionsContractParams) WithAsOf(q civil.Date) *GetOptionsContractParams {
 	p.AsOf = &q
 	return &p
 }
@@ -33,14 +35,14 @@ type ListOptionsContractsParams struct {
 	ContractType *string `query:"contract_type"`
 
 	// Specify the expiration date.
-	ExpirationDateEQ  *Date `query:"expiration_date"`
-	ExpirationDateLT  *Date `query:"expiration_date.lt"`
-	ExpirationDateLTE *Date `query:"expiration_date.lte"`
-	ExpirationDateGT  *Date `query:"expiration_date.gt"`
-	ExpirationDateGTE *Date `query:"expiration_date.gte"`
+	ExpirationDateEQ  *civil.Date `query:"expiration_date"`
+	ExpirationDateLT  *civil.Date `query:"expiration_date.lt"`
+	ExpirationDateLTE *civil.Date `query:"expiration_date.lte"`
+	ExpirationDateGT  *civil.Date `query:"expiration_date.gt"`
+	ExpirationDateGTE *civil.Date `query:"expiration_date.gte"`
 
 	// Specify a point in time for contracts as of this date with format YYYY-MM-DD.
-	AsOf *Date `query:"as_of"`
+	AsOf *civil.Date `query:"as_of"`
 
 	// Specify the strike price.
 	StrikePriceEQ  *float64 `query:"strike_price"`
@@ -83,7 +85,7 @@ func (p ListOptionsContractsParams) WithContractType(q string) *ListOptionsContr
 	return &p
 }
 
-func (p ListOptionsContractsParams) WithExpirationDate(c Comparator, q Date) *ListOptionsContractsParams {
+func (p ListOptionsContractsParams) WithExpirationDate(c Comparator, q civil.Date) *ListOptionsContractsParams {
 	switch c {
 	case EQ:
 		p.ExpirationDateEQ = &q
@@ -99,7 +101,7 @@ func (p ListOptionsContractsParams) WithExpirationDate(c Comparator, q Date) *Li
 	return &p
 }
 
-func (p ListOptionsContractsParams) WithAsOf(q Date) *ListOptionsContractsParams {
+func (p ListOptionsContractsParams) WithAsOf(q civil.Date) *ListOptionsContractsParams {
 	p.AsOf = &q
 	return &p
 }
@@ -152,7 +154,7 @@ type OptionsContract struct {
 	ContractType          string       `json:"contract_type,omitempty"`
 	Correction            int32        `json:"correction,omitempty"`
 	ExerciseStyle         string       `json:"exercise_style,omitempty"`
-	ExpirationDate        Date         `json:"expiration_date,omitempty"`
+	ExpirationDate        civil.Date   `json:"expiration_date,omitempty"`
 	PrimaryExchange       string       `json:"primary_exchange,omitempty"`
 	SharesPerContract     float64      `json:"shares_per_contract,omitempty"`
 	StrikePrice           float64      `json:"strike_price,omitempty"`

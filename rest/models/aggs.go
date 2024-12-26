@@ -1,5 +1,7 @@
 package models
 
+import "cloud.google.com/go/civil"
+
 // ListAggsParams is the set of parameters for the ListAggs method.
 type ListAggsParams struct {
 	// The ticker symbol of the stock/equity.
@@ -121,7 +123,7 @@ type GetGroupedDailyAggsParams struct {
 	MarketType MarketType `validate:"required" path:"marketType"`
 
 	// The beginning date for the aggregate window.
-	Date Date `validate:"required" path:"date"`
+	Date civil.Date `validate:"required" path:"date"`
 
 	// Whether or not the results are adjusted for splits. By default, results are adjusted. Set this to false to get
 	// results that are NOT adjusted for splits.
@@ -157,7 +159,7 @@ type GetDailyOpenCloseAggParams struct {
 	Ticker string `validate:"required" path:"ticker"`
 
 	// The date of the requested open/close in the format YYYY-MM-DD.
-	Date Date `validate:"required" path:"date"`
+	Date civil.Date `validate:"required" path:"date"`
 
 	// Whether or not the results are adjusted for splits. By default, results are adjusted. Set this to false to get
 	// results that are NOT adjusted for splits.

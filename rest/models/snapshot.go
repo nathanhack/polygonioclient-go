@@ -2,6 +2,8 @@ package models
 
 import (
 	"strings"
+
+	"cloud.google.com/go/civil"
 )
 
 // GetAllTickersSnapshotParams is the set of parameters for the GetAllTickersSnapshot method.
@@ -89,11 +91,11 @@ type ListOptionsChainParams struct {
 	ContractType *ContractType `query:"contract_type"`
 
 	// The contract's expiration date in YYYY-MM-DD format.
-	ExpirationDateEQ  *Date `query:"expiration_date"`
-	ExpirationDateLT  *Date `query:"expiration_date.lt"`
-	ExpirationDateLTE *Date `query:"expiration_date.lte"`
-	ExpirationDateGT  *Date `query:"expiration_date.gt"`
-	ExpirationDateGTE *Date `query:"expiration_date.gte"`
+	ExpirationDateEQ  *civil.Date `query:"expiration_date"`
+	ExpirationDateLT  *civil.Date `query:"expiration_date.lt"`
+	ExpirationDateLTE *civil.Date `query:"expiration_date.lte"`
+	ExpirationDateGT  *civil.Date `query:"expiration_date.gt"`
+	ExpirationDateGTE *civil.Date `query:"expiration_date.gte"`
 
 	// Limit the number of results returned, default is 10 and max is 1000.
 	Limit *int `query:"limit"`
@@ -142,7 +144,7 @@ func (o ListOptionsChainParams) WithLimit(limit int) *ListOptionsChainParams {
 // WithExpirationDate sets expiration_date query parameter.
 // comparator options include EQ, LT, LTE, GT, and GTE.
 // expirationDate should be in YYYY-MM-DD format
-func (o ListOptionsChainParams) WithExpirationDate(comparator Comparator, expirationDate Date) *ListOptionsChainParams {
+func (o ListOptionsChainParams) WithExpirationDate(comparator Comparator, expirationDate civil.Date) *ListOptionsChainParams {
 	switch comparator {
 	case EQ:
 		o.ExpirationDateEQ = &expirationDate
@@ -341,12 +343,12 @@ type DayOptionContractSnapshot struct {
 
 // OptionDetails contains more detailed information about an option contract.
 type OptionDetails struct {
-	ContractType      string  `json:"contract_type,omitempty"`
-	ExerciseStyle     string  `json:"exercise_style,omitempty"`
-	ExpirationDate    Date    `json:"expiration_date,omitempty"`
-	SharesPerContract float64 `json:"shares_per_contract,omitempty"`
-	StrikePrice       float64 `json:"strike_price,omitempty"`
-	Ticker            string  `json:"ticker,omitempty"`
+	ContractType      string     `json:"contract_type,omitempty"`
+	ExerciseStyle     string     `json:"exercise_style,omitempty"`
+	ExpirationDate    civil.Date `json:"expiration_date,omitempty"`
+	SharesPerContract float64    `json:"shares_per_contract,omitempty"`
+	StrikePrice       float64    `json:"strike_price,omitempty"`
+	Ticker            string     `json:"ticker,omitempty"`
 }
 
 // Greeks contains the delta, gamma, vega, and theta of an option contract.

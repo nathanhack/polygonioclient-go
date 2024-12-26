@@ -1,5 +1,7 @@
 package models
 
+import "cloud.google.com/go/civil"
+
 // ListDividendsParams is the set of parameters for the ListDividends method.
 type ListDividendsParams struct {
 	// Return the dividends that contain this ticker.
@@ -10,32 +12,32 @@ type ListDividendsParams struct {
 	TickerGTE *string `query:"ticker.gte"`
 
 	// Query by ex-dividend date with the format YYYY-MM-DD.
-	ExDividendDateEQ  *Date `query:"ex_dividend_date"`
-	ExDividendDateLT  *Date `query:"ex_dividend_date.lt"`
-	ExDividendDateLTE *Date `query:"ex_dividend_date.lte"`
-	ExDividendDateGT  *Date `query:"ex_dividend_date.gt"`
-	ExDividendDateGTE *Date `query:"ex_dividend_date.gte"`
+	ExDividendDateEQ  *civil.Date `query:"ex_dividend_date"`
+	ExDividendDateLT  *civil.Date `query:"ex_dividend_date.lt"`
+	ExDividendDateLTE *civil.Date `query:"ex_dividend_date.lte"`
+	ExDividendDateGT  *civil.Date `query:"ex_dividend_date.gt"`
+	ExDividendDateGTE *civil.Date `query:"ex_dividend_date.gte"`
 
 	// Query by record date with the format YYYY-MM-DD.
-	RecordDateEQ  *Date `query:"record_date"`
-	RecordDateLT  *Date `query:"record_date.lt"`
-	RecordDateLTE *Date `query:"record_date.lte"`
-	RecordDateGT  *Date `query:"record_date.gt"`
-	RecordDateGTE *Date `query:"record_date.gte"`
+	RecordDateEQ  *civil.Date `query:"record_date"`
+	RecordDateLT  *civil.Date `query:"record_date.lt"`
+	RecordDateLTE *civil.Date `query:"record_date.lte"`
+	RecordDateGT  *civil.Date `query:"record_date.gt"`
+	RecordDateGTE *civil.Date `query:"record_date.gte"`
 
 	// Query by declaration date with the format YYYY-MM-DD.
-	DeclarationDateEQ  *Date `query:"declaration_date"`
-	DeclarationDateLT  *Date `query:"declaration_date.lt"`
-	DeclarationDateLTE *Date `query:"declaration_date.lte"`
-	DeclarationDateGT  *Date `query:"declaration_date.gt"`
-	DeclarationDateGTE *Date `query:"declaration_date.gte"`
+	DeclarationDateEQ  *civil.Date `query:"declaration_date"`
+	DeclarationDateLT  *civil.Date `query:"declaration_date.lt"`
+	DeclarationDateLTE *civil.Date `query:"declaration_date.lte"`
+	DeclarationDateGT  *civil.Date `query:"declaration_date.gt"`
+	DeclarationDateGTE *civil.Date `query:"declaration_date.gte"`
 
 	// Query by pay date with the format YYYY-MM-DD.
-	PayDateEQ  *Date `query:"pay_date"`
-	PayDateLT  *Date `query:"pay_date.lt"`
-	PayDateLTE *Date `query:"pay_date.lte"`
-	PayDateGT  *Date `query:"pay_date.gt"`
-	PayDateGTE *Date `query:"pay_date.gte"`
+	PayDateEQ  *civil.Date `query:"pay_date"`
+	PayDateLT  *civil.Date `query:"pay_date.lt"`
+	PayDateLTE *civil.Date `query:"pay_date.lte"`
+	PayDateGT  *civil.Date `query:"pay_date.gt"`
+	PayDateGTE *civil.Date `query:"pay_date.gte"`
 
 	// Query by the number of times per year the dividend is paid out. Possible values are 0 (one-time), 1 (annually), 2
 	// (bi-annually), 4 (quarterly), and 12 (monthly).
@@ -79,7 +81,7 @@ func (p ListDividendsParams) WithTicker(c Comparator, q string) *ListDividendsPa
 	return &p
 }
 
-func (p ListDividendsParams) WithExDividendDate(c Comparator, q Date) *ListDividendsParams {
+func (p ListDividendsParams) WithExDividendDate(c Comparator, q civil.Date) *ListDividendsParams {
 	switch c {
 	case EQ:
 		p.ExDividendDateEQ = &q
@@ -95,7 +97,7 @@ func (p ListDividendsParams) WithExDividendDate(c Comparator, q Date) *ListDivid
 	return &p
 }
 
-func (p ListDividendsParams) WithDeclarationDate(c Comparator, q Date) *ListDividendsParams {
+func (p ListDividendsParams) WithDeclarationDate(c Comparator, q civil.Date) *ListDividendsParams {
 	switch c {
 	case EQ:
 		p.DeclarationDateEQ = &q
@@ -111,7 +113,7 @@ func (p ListDividendsParams) WithDeclarationDate(c Comparator, q Date) *ListDivi
 	return &p
 }
 
-func (p ListDividendsParams) WithPayDate(c Comparator, q Date) *ListDividendsParams {
+func (p ListDividendsParams) WithPayDate(c Comparator, q civil.Date) *ListDividendsParams {
 	switch c {
 	case EQ:
 		p.PayDateEQ = &q
@@ -176,12 +178,12 @@ type ListDividendsResponse struct {
 
 // Dividend contains detailed information on a specified stock dividend.
 type Dividend struct {
-	CashAmount      float64 `json:"cash_amount,omitempty"`
-	DeclarationDate Date    `json:"declaration_date,omitempty"`
-	DividendType    string  `json:"dividend_type,omitempty"`
-	ExDividendDate  string  `json:"ex_dividend_date,omitempty"`
-	Frequency       int64   `json:"frequency,omitempty"`
-	PayDate         Date    `json:"pay_date,omitempty"`
-	RecordDate      Date    `json:"record_date,omitempty"`
-	Ticker          string  `json:"ticker,omitempty"`
+	CashAmount      float64    `json:"cash_amount,omitempty"`
+	DeclarationDate civil.Date `json:"declaration_date,omitempty"`
+	DividendType    string     `json:"dividend_type,omitempty"`
+	ExDividendDate  civil.Date `json:"ex_dividend_date,omitempty"`
+	Frequency       int64      `json:"frequency,omitempty"`
+	PayDate         civil.Date `json:"pay_date,omitempty"`
+	RecordDate      civil.Date `json:"record_date,omitempty"`
+	Ticker          string     `json:"ticker,omitempty"`
 }
